@@ -1,0 +1,18 @@
+[project]
+name = "camlin-backend-test"
+version = "0.1.0"
+description = "Camlin take home test for Senior Backend Engineer"
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = [
+    "fastapi>=0.115.13",
+    "httpx>=0.28.1",
+    "pydantic>=2.11.7",
+    "pyjwt>=2.10.1",
+    "pytest>=8.4.1",
+]
+
+[tool.pytest.ini_options]
+pythonpath = [
+  "."
+]
