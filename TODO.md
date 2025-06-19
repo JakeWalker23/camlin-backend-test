@@ -14,6 +14,8 @@ TODO
 
 [ ] Fix currency amount validation error display
 
+[ ] Test edge cases 
+
 
 
 - Refactoring
