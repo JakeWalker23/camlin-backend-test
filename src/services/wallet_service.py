@@ -1,6 +1,6 @@
 from src.services.exchange_service import fetch_exchange_rates
 from src.models.wallet import Wallet
-from src.db.wallet_db import fetch_all_currencies, add_currency_amount, subtract_currency_amount
+from src.db.wallet_db import fetch_all_currencies, add_currency_amount, subtract_currency_amount, remove_currency
 
 
 async def get_wallet() -> Wallet:
@@ -27,3 +27,6 @@ async def add_currency_to_wallet(currency: str, amount: float):
 
 async def subtract_currency_from_wallet(currency: str, amount: float):
     subtract_currency_amount(currency, amount)
+
+async def remove_currency_from_wallet(currency: str):
+    remove_currency(currency)

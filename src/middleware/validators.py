@@ -13,8 +13,6 @@ def validate_currency_amount(value: str) -> float:
 
     return amount
 
-
-
 def validate_currency_code(code: str) -> str:
     CURRENCY_REGEX = re.compile(r'^[a-zA-Z]{3}$')
     

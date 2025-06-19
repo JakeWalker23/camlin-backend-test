@@ -4,13 +4,15 @@ TODO
 
 [ ] Package up properly 
 
-[ ] Add endpoint to delete a currency
-
 [ ] Add full tests
 
 [ ] Clean CI build
 
 [ ] Add rate handling 
+
+[ ] Add postman collections
+
+[ ] Fix currency amount validation error display
 
 
 

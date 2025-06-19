@@ -1,2 +1,5 @@
 .pytest_cache
 .venv
+.build
+wallet.db
+__pycache__

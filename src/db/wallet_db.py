@@ -67,3 +67,14 @@ def subtract_currency_amount(currency: str, amount: float):
         )
 
     conn.commit()
+
+def remove_currency(currency: str):
+    with sqlite3.connect(DB_PATH) as conn:
+        cursor = conn.cursor()
+        cursor.execute(
+            "DELETE FROM wallet WHERE currency = ?",
+            (currency,)
+        )
+        if cursor.rowcount == 0:
+            raise ValueError(f"Currency '{currency}' does not exist in the wallet.")
+    conn.commit()
