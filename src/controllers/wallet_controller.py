@@ -1,5 +1,5 @@
 from fastapi import APIRouter, Depends, HTTPException, status
-from src.middleware.validators import validate_currency_amount, validate_currency_code
+from src.middleware.currency_validator import CurrencyValidator
 
 from src.services.wallet_service import WalletService
 
@@ -10,6 +10,7 @@ from src.models.wallet import Wallet
 router = APIRouter()
 
 wallet_service = WalletService()
+currency_validator = CurrencyValidator()
 
 @router.get("/wallet", response_model=Wallet)
 async def read_wallet(user=Depends(verify_jwt)):
@@ -19,8 +20,8 @@ async def read_wallet(user=Depends(verify_jwt)):
 @router.post("/wallet/add/{currency}/{amount}")
 async def add_to_wallet(currency: str, amount: float):
     try:
-        validated_currency = validate_currency_code(currency)
-        validated_amount = validate_currency_amount(amount)
+        validated_currency = currency_validator.validate_currency_code(currency)
+        validated_amount = currency_validator.validate_currency_amount(amount)
 
         await wallet_service.add_currency_to_wallet(validated_currency, amount)
         
@@ -32,8 +33,8 @@ async def add_to_wallet(currency: str, amount: float):
 @router.post("/wallet/sub/{currency}/{amount}")
 async def subtract_from_wallet(currency: str, amount: float):
     try:
-        validated_currency = validate_currency_code(currency)
-        validated_amount = validate_currency_amount(amount)
+        validated_currency = currency_validator.validate_currency_code(currency)
+        validated_amount = currency_validator.validate_currency_amount(amount)
 
         await wallet_service.subtract_currency_from_wallet(validated_currency, amount)
         
@@ -45,7 +46,7 @@ async def subtract_from_wallet(currency: str, amount: float):
 @router.delete("/wallet/{currency}")
 async def delete_currency_from_wallet(currency: str):
     try:
-        validated_currency = validate_currency_code(currency)
+        validated_currency = currency_validator.validate_currency_code(currency)
 
         await wallet_service.remove_currency_from_wallet(validated_currency)
         

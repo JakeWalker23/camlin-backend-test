@@ -4,8 +4,6 @@ TODO
 
 [ ] Package up properly 
 
-[ ] Add full tests
-
 [ ] Add rate handling 
 
 [ ] Add postman collections

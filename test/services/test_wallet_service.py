@@ -18,6 +18,42 @@ class TestWalletService:
         assert wallet.pln_holdings == {"USD": 40.0, "PLN": 20.0}
         assert wallet.total_pln == 60.0
         assert isinstance(wallet, Wallet)
+
+    @patch("src.services.wallet_service.add_currency_amount")
+    async def test_add_currency_success(self, mock_add_currency_amount):
+        mock_add_currency_amount.return_value = None
+        
+        service = WalletService()
+        await service.add_currency_to_wallet("USD", 10.5)
+
+        mock_add_currency_amount.assert_called_once_with("USD", 10.5)
+
+    @patch("src.services.wallet_service.add_currency_amount")
+    async def test_add_currency_raises_value_error(self, mock_add_currency_amount):
+        mock_add_currency_amount.side_effect = ValueError("Cannot add negative amount")
+        
+        service = WalletService()
+
+        with pytest.raises(ValueError, match="Cannot add negative amount"):
+            await service.add_currency_to_wallet("USD", -5.0)
+    
+    @patch("src.services.wallet_service.subtract_currency_from_wallet")
+    async def test_remove_currency_success(self, mock_remove_currency):
+        mock_remove_currency.return_value = None
+        
+        service = WalletService()
+        await service.subtract_currency_from_wallet("USD")
+
+        mock_remove_currency.assert_called_once_with("USD")
+
+    @patch("src.services.wallet_service.subtract_currency_from_wallet")
+    async def test_remove_currency_raises_value_error(self, mock_remove_currency):
+        mock_remove_currency.side_effect = ValueError("Currency not found")
+        
+        service = WalletService()
+
+        with pytest.raises(ValueError, match="Currency not found"):
+            await service.subtract_currency_from_wallet("USD")
     
     @patch("src.services.wallet_service.remove_currency")
     async def test_remove_currency_success(self, mock_remove_currency):
