@@ -22,8 +22,8 @@ jobs:
       - name: Install dependencies
         run: pip install .
 
-      # - name: Run tests
-      #   run: pytest
+      - name: Run tests
+        run: pytest
       
       - name: Build Docker image
         run: docker build -t JakeWalker23/camlin-backend-test:latest .

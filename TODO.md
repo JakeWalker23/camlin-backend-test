@@ -6,16 +6,13 @@ TODO
 
 [ ] Add full tests
 
-[ ] Clean CI build
-
 [ ] Add rate handling 
 
 [ ] Add postman collections
 
 [ ] Fix currency amount validation error display
 
-[ ] Test edge cases 
-
+[ ] Have I got the right structure for controller?
 
 
 - Refactoring

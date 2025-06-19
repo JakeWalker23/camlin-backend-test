@@ -2,7 +2,6 @@ import sqlite3
 
 DB_PATH = "wallet.db"
 
-
 def init_db():
     with sqlite3.connect(DB_PATH) as conn:
         conn.execute(
