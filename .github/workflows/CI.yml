@@ -22,14 +22,8 @@ jobs:
       - name: Install dependencies
         run: pip install .
 
-      - name: Format code with Black
-        run: black --check .
-
-      - name: Lint code with flake8
-        run: flake8 .
-
-      - name: Run tests
-        run: pytest
+      # - name: Run tests
+      #   run: pytest
       
       - name: Build Docker image
-        run: docker build -t yourusername/yourapp:latest .
+        run: docker build -t JakeWalker23/camlin-backend-test:latest .

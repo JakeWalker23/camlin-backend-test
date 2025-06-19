@@ -5,9 +5,7 @@ description = "Camlin take home test for Senior Backend Engineer"
 readme = "README.md"
 requires-python = ">=3.11"
 dependencies = [
-    "black>=25.1.0",
     "fastapi>=0.115.13",
-    "flake8>=7.2.0",
     "httpx>=0.28.1",
     "pydantic>=2.11.7",
     "pyjwt>=2.10.1",
@@ -21,7 +19,5 @@ pythonpath = [
 
 [project.optional-dependencies]
 dev = [
-  "black",
-  "flake8",
   "pytest",
 ]
