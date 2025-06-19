@@ -4,6 +4,7 @@ from main import app
 
 client = TestClient(app)
 
+
 def test_wallet_endpoint_structure():
     response = client.get("/wallet")
     assert response.status_code == 200
@@ -16,6 +17,7 @@ def test_wallet_endpoint_structure():
     assert isinstance(data["holdings"], dict)
     assert isinstance(data["pln_holdings"], dict)
     assert isinstance(data["total_pln"], (int, float))
+
 
 def test_wallet_contains_pln_and_usd():
     response = client.get("/wallet")

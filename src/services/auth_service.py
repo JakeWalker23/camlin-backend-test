@@ -7,6 +7,7 @@ ALGORITHM = "HS256"
 
 security = HTTPBearer()
 
+
 def verify_jwt(credentials: HTTPAuthorizationCredentials = Depends(security)):
     token = credentials.credentials
     try:
