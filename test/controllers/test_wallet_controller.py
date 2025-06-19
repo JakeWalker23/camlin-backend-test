@@ -1,11 +1,13 @@
+from src.controllers.wallet_controller import read_wallet
+from src.services.auth_service import AuthService
+from main import app
+
 from fastapi.testclient import TestClient
 from fastapi import HTTPException
 from unittest.mock import AsyncMock, patch
-from src.services.auth_service import verify_jwt
-from src.controllers.wallet_controller import read_wallet
-from main import app
 
 client = TestClient(app)
+auth_service = AuthService()
 
 class TestWalletController:
     async def mock_jwt(self):
@@ -30,18 +32,18 @@ class TestWalletController:
         app.dependency_overrides = {}
 
     def test_read_wallet_returns_HTTP_200_response(self):
-        app.dependency_overrides[verify_jwt] = self.mock_jwt
+        app.dependency_overrides[AuthService.verify_jwt] = self.mock_jwt
         app.dependency_overrides[read_wallet] = self.mock_wallet
 
-        response = client.get("/wallet")
+        response = client.get("/wallet", headers={"Authorization": "Bearer faketoken"})
 
         assert response.status_code == 200
         assert response.json() == {'holdings': {'PLN': 0.0}, 'pln_holdings': {'PLN': 0.0}, 'total_pln': 0.0}
 
     def test_read_wallet_returns_HTTP_401_response_when_unauthorised(self):
-        app.dependency_overrides[verify_jwt] = self.fake_verify_jwt_fail
+        app.dependency_overrides[auth_service.verify_jwt] = self.fake_verify_jwt_fail
 
-        response = client.get("/wallet")
+        response = client.get("/wallet", headers={"Authorization": "Bearer faketoken"})
 
         assert response.status_code == 401
         assert response.json() == {"detail": "Invalid token"}
@@ -49,8 +51,8 @@ class TestWalletController:
 
     @patch("src.controllers.wallet_controller.wallet_service.add_currency_to_wallet", new_callable=AsyncMock)
     def test_add_to_wallet_success(self, mock_add):
+        app.dependency_overrides[AuthService.verify_jwt] = self.mock_jwt
         mock_add.return_value = None
-        app.dependency_overrides[verify_jwt] = self.mock_jwt
 
         response = client.post("/wallet/add/USD/10.5")
 
@@ -60,8 +62,8 @@ class TestWalletController:
 
     @patch("src.controllers.wallet_controller.wallet_service.add_currency_to_wallet", new_callable=AsyncMock)
     def test_add_to_wallet_validation_error(self, mock_add_currency_fail):
+        app.dependency_overrides[AuthService.verify_jwt] = self.mock_jwt
         mock_add_currency_fail.side_effect = ValueError("Invalid currency")
-        app.dependency_overrides[verify_jwt] = self.mock_jwt
 
         response = client.post("/wallet/add/INVALID/10.5")
 
@@ -71,8 +73,8 @@ class TestWalletController:
     
     @patch("src.controllers.wallet_controller.wallet_service.subtract_currency_from_wallet", new_callable=AsyncMock)
     def test_subtract_from_wallet_success(self, mock_subtract):
+        app.dependency_overrides[AuthService.verify_jwt] = self.mock_jwt
         mock_subtract.return_value = None
-        app.dependency_overrides[verify_jwt] = self.mock_jwt
 
         response = client.post("/wallet/sub/USD/10.5")
 
@@ -82,8 +84,8 @@ class TestWalletController:
 
     @patch("src.controllers.wallet_controller.wallet_service.subtract_currency_from_wallet", new_callable=AsyncMock)
     def test_subtract_from_wallet_validation_error(self, mock_subtract_fail):
+        app.dependency_overrides[AuthService.verify_jwt] = self.mock_jwt
         mock_subtract_fail.side_effect = ValueError("Invalid currency")
-        app.dependency_overrides[verify_jwt] = self.mock_jwt
 
         response = client.post("/wallet/sub/INVALID/10.5")
 
@@ -94,9 +96,9 @@ class TestWalletController:
     @patch("src.controllers.wallet_controller.wallet_service.remove_currency_from_wallet", new_callable=AsyncMock)
     @patch("src.controllers.wallet_controller.currency_validator.validate_currency_code")
     def test_delete_currency_success(self, mock_validate_currency, mock_remove_currency):
+        app.dependency_overrides[AuthService.verify_jwt] = self.mock_jwt
         mock_validate_currency.return_value = "USD"
         mock_remove_currency.return_value = None
-        app.dependency_overrides[verify_jwt] = self.mock_jwt
 
         response = client.delete("/wallet/USD")
 
@@ -107,8 +109,8 @@ class TestWalletController:
 
     @patch("src.controllers.wallet_controller.currency_validator.validate_currency_code")
     def test_delete_currency_invalid_currency(self, mock_validate_currency):
+        app.dependency_overrides[AuthService.verify_jwt] = self.mock_jwt
         mock_validate_currency.side_effect = ValueError("Invalid currency code")
-        app.dependency_overrides[verify_jwt] = self.mock_jwt
 
         response = client.delete("/wallet/INVALID")
 

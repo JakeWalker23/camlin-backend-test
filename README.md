@@ -2,10 +2,6 @@
 
 
 
-
-
-
-
 ## Generate JWT 
 
 ```

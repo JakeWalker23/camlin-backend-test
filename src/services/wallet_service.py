@@ -1,4 +1,4 @@
-from src.services.exchange_service import fetch_exchange_rates
+from src.services.exchange_service import ExchangeService
 from src.models.wallet import Wallet
 from src.db.wallet_db import (
     fetch_all_currencies,
@@ -7,13 +7,15 @@ from src.db.wallet_db import (
     remove_currency,
 )
 
+exchange_service = ExchangeService()
+
 class WalletService:
     def __init__(self):
         pass
 
     async def get_wallet(self) -> Wallet:
         holdings = fetch_all_currencies()
-        exchange_rates = await fetch_exchange_rates()
+        exchange_rates = await exchange_service.fetch_exchange_rates()
 
         pln_holdings = {}
         total_pln = 0.0
@@ -32,7 +34,6 @@ class WalletService:
 
     async def add_currency_to_wallet(self, currency: str, amount: float):
         add_currency_amount(currency, amount)
-
 
     async def subtract_currency_from_wallet(self, currency: str, amount: float):
         subtract_currency_amount(currency, amount)

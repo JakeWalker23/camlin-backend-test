@@ -1,12 +1,12 @@
-import pytest
-from unittest.mock import patch, AsyncMock
 from src.services.wallet_service import WalletService
 from src.models.wallet import Wallet
+from unittest.mock import patch, AsyncMock
+import pytest
 
 @pytest.mark.asyncio
 class TestWalletService:
     @patch("src.services.wallet_service.fetch_all_currencies")
-    @patch("src.services.wallet_service.fetch_exchange_rates", new_callable=AsyncMock)
+    @patch("src.services.wallet_service.exchange_service.fetch_exchange_rates", new_callable=AsyncMock)
     async def test_get_wallet(self, mock_fetch_exchange_rates, mock_fetch_all_currencies):
         mock_fetch_all_currencies.return_value = {"USD": 10.0, "PLN": 20.0}
         mock_fetch_exchange_rates.return_value = {"USD": 4.0, "PLN": 1.0}

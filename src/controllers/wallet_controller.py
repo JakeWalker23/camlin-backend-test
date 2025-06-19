@@ -1,19 +1,19 @@
-from fastapi import APIRouter, Depends, HTTPException, status
 from src.middleware.currency_validator import CurrencyValidator
-
 from src.services.wallet_service import WalletService
-
-from src.services.auth_service import verify_jwt
+from src.services.auth_service import AuthService
 from src.models.wallet import Wallet
 
-
-router = APIRouter()
+from fastapi import APIRouter, Depends, HTTPException, status
 
 wallet_service = WalletService()
 currency_validator = CurrencyValidator()
 
+router = APIRouter(
+    dependencies=[Depends(AuthService.verify_jwt)]
+)
+
 @router.get("/wallet", response_model=Wallet)
-async def read_wallet(user=Depends(verify_jwt)):
+async def read_wallet():
     return await wallet_service.get_wallet()
 
 
