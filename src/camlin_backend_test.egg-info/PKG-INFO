@@ -1,0 +1,40 @@
+Metadata-Version: 2.4
+Name: camlin-backend-test
+Version: 0.1.0
+Summary: Camlin take home test for Senior Backend Engineer
+Requires-Python: >=3.13
+Description-Content-Type: text/markdown
+Requires-Dist: fastapi>=0.115.13
+Requires-Dist: httpx>=0.28.1
+Requires-Dist: pydantic>=2.11.7
+Requires-Dist: pyjwt>=2.10.1
+Requires-Dist: pytest>=8.4.1
+
+# Camlin Backend Engineer Test
+
+
+
+
+
+
+
+## Generate JWT 
+
+```
+python3 generate_token.py
+```
+
+
+
+# Docker
+
+Build:
+```
+docker build -t camlin-backend .
+```
+
+
+Run:
+```
+docker run -p 8000:8000 camlin-backend
+```
