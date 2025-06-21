@@ -16,7 +16,6 @@ class AuthService:
         token = credentials.credentials
         try:
             payload = jwt.decode(token, secret, algorithms=[algorithm])
-            return payload
         except jwt.ExpiredSignatureError:
             raise HTTPException(
                 status_code=status.HTTP_401_UNAUTHORIZED,
@@ -27,3 +26,11 @@ class AuthService:
                 status_code=status.HTTP_401_UNAUTHORIZED,
                 detail="Invalid token",
             )
+        
+        if payload.get("role") != "admin":
+            raise HTTPException(
+                status_code=status.HTTP_403_FORBIDDEN,
+                detail="User Unauthorised",
+            )
+        
+        return payload

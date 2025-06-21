@@ -1,11 +1,5 @@
 TODO
 
-[ ] Authorisation in the app?
-
-
-
-
-
 
 
 [ ] Check aligns with the objectives

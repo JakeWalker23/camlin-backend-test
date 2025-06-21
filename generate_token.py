@@ -5,7 +5,7 @@ JWT_SECRET = "your-super-secret-key"
 ALGORITHM = "HS256"
 
 
-def create_token(user_id: str = "test_user", role: str = "admin") -> str:
+def create_token(user_id: str = "test_user", role: str = "dave") -> str:
     payload = {
         "sub": user_id,
         "role": role,
@@ -16,5 +16,5 @@ def create_token(user_id: str = "test_user", role: str = "admin") -> str:
 
 
 if __name__ == "__main__":
-    token = create_token()
+    token = create_token('')
     print(f"Your test JWT token:\n\nBearer {token}\n")
