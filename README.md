@@ -5,7 +5,7 @@ Hello. Thank you for the opportunity to apply for this role at Camlin Group.
 
 
 
-Please read on for full instructions to build and run the API. For example API usuage, please see the Postman collections here:
+Please read on for full instructions to build and run the API. For example API usuage, please see the Postman collections [here](.postman/CamlinGroup.postman_collection.json).
 
 
 ### 1. Secrets
@@ -47,3 +47,11 @@ docker run -p 8000:8000 camlin-backend
 ### 4. Use a HTTP client to communicate with the API
 
 Recommended usage is Postman, as collections can be imported. But other methods could be Curl or httpie.
+
+To import into Postman:
+1. Open Postman
+2. Click "Import"
+3. Select "File"
+4. Upload the `CamlinGroup.postman_collection.json` file
+
+
