@@ -3,7 +3,9 @@ from src.services.wallet_service import WalletService
 from src.services.auth_service import AuthService
 from src.models.wallet import Wallet
 
-from fastapi import APIRouter, Depends, HTTPException, status
+from src.utils.limiter import limiter
+
+from fastapi import APIRouter, Depends, HTTPException, status, Request
 
 wallet_service = WalletService()
 currency_validator = CurrencyValidator()
@@ -13,7 +15,8 @@ router = APIRouter(
 )
 
 @router.get("/wallet", response_model=Wallet)
-async def read_wallet():
+@limiter.limit("10/minute")
+async def read_wallet(request: Request):
     return await wallet_service.get_wallet()
 
 
