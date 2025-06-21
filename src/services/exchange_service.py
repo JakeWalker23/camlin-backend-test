@@ -1,7 +1,12 @@
+from dotenv import load_dotenv
+import os
+
 import httpx
 
+load_dotenv()
+
 class ExchangeService:
-    BASE_URL = "https://api.nbp.pl/api/exchangerates/tables/A"
+    BASE_URL = os.getenv('EXCHANGE_URL')
 
     async def fetch_exchange_rates(self) -> dict[str, float]:
         async with httpx.AsyncClient() as client:

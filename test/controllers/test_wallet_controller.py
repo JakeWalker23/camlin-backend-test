@@ -7,7 +7,6 @@ from fastapi import HTTPException
 from unittest.mock import AsyncMock, patch
 
 client = TestClient(app)
-auth_service = AuthService()
 
 class TestWalletController:
     async def mock_jwt(self):
@@ -41,7 +40,7 @@ class TestWalletController:
         assert response.json() == {'holdings': {'PLN': 0.0}, 'pln_holdings': {'PLN': 0.0}, 'total_pln': 0.0}
 
     def test_read_wallet_returns_HTTP_401_response_when_unauthorised(self):
-        app.dependency_overrides[auth_service.verify_jwt] = self.fake_verify_jwt_fail
+        app.dependency_overrides[AuthService.verify_jwt] = self.fake_verify_jwt_fail
 
         response = client.get("/wallet", headers={"Authorization": "Bearer faketoken"})
 

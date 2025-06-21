@@ -2,20 +2,21 @@ from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 from fastapi import HTTPException, status, Depends
 import jwt
 
+from dotenv import load_dotenv
+import os
+
+load_dotenv()
+
 class AuthService:
-    def __init__(self, secret: str = "your-super-secret-key", algorithm: str = "HS256"):
-        self.JWT_SECRET = secret
-        self.ALGORITHM = algorithm
-        self.security = HTTPBearer()
 
     @staticmethod
     async def verify_jwt(credentials: HTTPAuthorizationCredentials = Depends(HTTPBearer())):
-        secret = "your-super-secret-key"
-        algorithm: str = "HS256"
+        JWT_SECRET = os.getenv('JWT_SECRET')
+        JWT_ALGORITHM = os.getenv('JWT_ALGORITHM') 
 
         token = credentials.credentials
         try:
-            payload = jwt.decode(token, secret, algorithms=[algorithm])
+            payload = jwt.decode(token, JWT_SECRET, algorithms=[JWT_ALGORITHM])
         except jwt.ExpiredSignatureError:
             raise HTTPException(
                 status_code=status.HTTP_401_UNAUTHORIZED,
