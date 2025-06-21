@@ -47,7 +47,7 @@ class TestWalletController:
 
         assert response.status_code == 200
         assert response.json() == {"message": "Added 10.5 USD to wallet"}
-        mock_add.assert_awaited_once_with("USD", '10.5')
+        mock_add.assert_awaited_once_with("USD", 10.5)
 
     @patch("src.controllers.wallet_controller.wallet_service.add_currency_to_wallet", new_callable=AsyncMock)
     def test_add_to_wallet_validation_error(self, mock_add_currency_fail):
@@ -69,7 +69,7 @@ class TestWalletController:
 
         assert response.status_code == 200
         assert response.json() == {"message": "Subtracted 10.5 USD from wallet."}
-        mock_subtract.assert_awaited_once_with("USD", '10.5')
+        mock_subtract.assert_awaited_once_with("USD", 10.5)
 
     @patch("src.controllers.wallet_controller.wallet_service.subtract_currency_from_wallet", new_callable=AsyncMock)
     def test_subtract_from_wallet_validation_error(self, mock_subtract_fail):

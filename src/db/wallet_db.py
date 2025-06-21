@@ -65,7 +65,7 @@ def subtract_currency_amount(currency: str, amount: float):
 
         current_amount = row[0]
 
-        if amount > current_amount:
+        if amount > float(current_amount):
             raise ValueError(f"Insufficient funds in {currency}.")
 
         cursor.execute(

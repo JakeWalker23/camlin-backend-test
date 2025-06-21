@@ -26,7 +26,7 @@ async def add_to_wallet(currency: str, amount: str):
         validated_currency = currency_validator.validate_currency_code(currency)
         validated_amount = currency_validator.validate_currency_amount(amount)
 
-        await wallet_service.add_currency_to_wallet(validated_currency, amount)
+        await wallet_service.add_currency_to_wallet(validated_currency, validated_amount)
         
         return {"message": f"Added {amount} {validated_currency} to wallet"}
     except ValueError as e:
@@ -39,7 +39,7 @@ async def subtract_from_wallet(currency: str, amount: str):
         validated_currency = currency_validator.validate_currency_code(currency)
         validated_amount = currency_validator.validate_currency_amount(amount)
 
-        await wallet_service.subtract_currency_from_wallet(validated_currency, amount)
+        await wallet_service.subtract_currency_from_wallet(validated_currency, validated_amount)
         
         return {"message": f"Subtracted {amount} {validated_currency} from wallet."}
     except ValueError as e:
