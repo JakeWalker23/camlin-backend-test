@@ -1,11 +1,12 @@
 TODO
 
-
-[ ] Add rate handling 
-
 [ ] Authorisation in the app?
 
-[ ] Fix currency amount validation error display
+
+
+
+
+
 
 [ ] Check aligns with the objectives
 

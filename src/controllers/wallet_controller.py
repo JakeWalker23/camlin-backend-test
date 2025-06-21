@@ -21,7 +21,7 @@ async def read_wallet(request: Request):
 
 
 @router.post("/wallet/add/{currency}/{amount}")
-async def add_to_wallet(currency: str, amount: float):
+async def add_to_wallet(currency: str, amount: str):
     try:
         validated_currency = currency_validator.validate_currency_code(currency)
         validated_amount = currency_validator.validate_currency_amount(amount)
@@ -34,7 +34,7 @@ async def add_to_wallet(currency: str, amount: float):
 
 
 @router.post("/wallet/sub/{currency}/{amount}")
-async def subtract_from_wallet(currency: str, amount: float):
+async def subtract_from_wallet(currency: str, amount: str):
     try:
         validated_currency = currency_validator.validate_currency_code(currency)
         validated_amount = currency_validator.validate_currency_amount(amount)

@@ -14,7 +14,7 @@ class CurrencyValidator:
             )
 
         if amount < 0:
-            raise HTTPException(status_code=400, detail="Amount must be non-negative.")
+            raise HTTPException(status_code=400, detail=f"Invalid Amount: {value}. Must be non-negative.")
 
         return amount
 
