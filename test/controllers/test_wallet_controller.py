@@ -9,27 +9,6 @@ from unittest.mock import AsyncMock, patch
 client = TestClient(app)
 
 class TestWalletController:
-    async def mock_jwt(self):
-        return {"sub": "test-user-id"}
-
-    def fake_verify_jwt_fail(self):
-        raise HTTPException(status_code=401, detail="Invalid token")
-
-    async def mock_wallet(self):
-        return {'holdings': {'PLN': 0.0}, 'pln_holdings': {'PLN': 0.0}, 'total_pln': 0.0}
-    
-    async def mock_add_currency_to_wallet(self, currency, amount):
-        return None
-
-    async def mock_add_currency_fail(self, currency, amount):
-        raise ValueError("Invalid currency")
-
-    def setup_method(self):
-        app.dependency_overrides = {}
-
-    def teardown_method(self):
-        app.dependency_overrides = {}
-
     def test_read_wallet_returns_HTTP_200_response(self):
         app.dependency_overrides[AuthService.verify_jwt] = self.mock_jwt
         app.dependency_overrides[read_wallet] = self.mock_wallet
@@ -116,3 +95,24 @@ class TestWalletController:
         assert response.status_code == 400
         assert response.json() == {"detail": "Invalid currency code"}
         mock_validate_currency.assert_called_once_with("INVALID")
+
+    async def mock_jwt(self):
+        return {"sub": "test-user-id"}
+
+    def fake_verify_jwt_fail(self):
+        raise HTTPException(status_code=401, detail="Invalid token")
+
+    async def mock_wallet(self):
+        return {'holdings': {'PLN': 0.0}, 'pln_holdings': {'PLN': 0.0}, 'total_pln': 0.0}
+    
+    async def mock_add_currency_to_wallet(self, currency, amount):
+        return None
+
+    async def mock_add_currency_fail(self, currency, amount):
+        raise ValueError("Invalid currency")
+
+    def setup_method(self):
+        app.dependency_overrides = {}
+
+    def teardown_method(self):
+        app.dependency_overrides = {}
