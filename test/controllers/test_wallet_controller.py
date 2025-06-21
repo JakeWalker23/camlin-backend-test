@@ -13,10 +13,21 @@ class TestWalletController:
         app.dependency_overrides[AuthService.verify_jwt] = self.mock_jwt
         app.dependency_overrides[read_wallet] = self.mock_wallet
 
+        with patch("src.controllers.wallet_controller.wallet_service.get_wallet") as mock_get_wallet:
+            mock_get_wallet.return_value = {
+                "holdings": {"PLN": 0.0},
+                "pln_holdings": {"PLN": 0.0},
+                "total_pln": 0.0
+            }
+
         response = client.get("/wallet", headers={"Authorization": "Bearer faketoken"})
 
         assert response.status_code == 200
-        assert response.json() == {'holdings': {'PLN': 0.0}, 'pln_holdings': {'PLN': 0.0}, 'total_pln': 0.0}
+        assert response.json() == {
+            "holdings": {"PLN": 0.0},
+            "pln_holdings": {"PLN": 0.0},
+            "total_pln": 0.0
+        }
 
     def test_read_wallet_returns_HTTP_401_response_when_unauthorised(self):
         app.dependency_overrides[AuthService.verify_jwt] = self.fake_verify_jwt_fail
