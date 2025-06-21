@@ -4,6 +4,11 @@ on:
   push:
     branches: [master]
 
+env:
+  JWT_SECRET: ${{ secrets.JWT_SECRET }}
+  JWT_ALGORITHM: ${{ secrets.JWT_ALGORITHM }}
+  EXCHANGE_URL: ${{ secrets.API_URL }}
+
 jobs:
   test:
     runs-on: ubuntu-latest
